@@ -1,0 +1,11 @@
+rule cxx
+    command = clang++ -std=c++11 -O3 $in -o $out $flags
+
+rule nvcc
+    command = nvcc -std=c++11 -O3 $in -o $out -arch=sm_61 --default-stream per-thread
+
+build hw5: nvcc hw5.cu
+build forward: cxx forward.cc
+build nbody: cxx nbody.cc
+build nbody_mt: cxx nbody_mt.cc
+    flags = -Wall -march=native -pthread -std=c++17
